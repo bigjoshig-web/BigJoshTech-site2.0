@@ -82,7 +82,6 @@ nav.scrolled{background:rgba(8,8,8,.92);backdrop-filter:blur(24px);border-bottom
 
 /* ─── HERO ───────────────────────────────────────── */
 #hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:8rem 0 5rem}
-.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 80% 80% at 50% 45%,black 10%,transparent 100%);pointer-events:none;z-index:1}
 .hero-glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(245,197,0,.045) 0%,transparent 60%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;animation:breathe 10s ease-in-out infinite}
 @keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.1)}}
 .hero-inner{max-width:1240px;margin:0 auto;padding:0 2.5rem;position:relative;z-index:2;display:grid;grid-template-columns:1fr 430px;gap:4rem;align-items:center}
@@ -421,7 +420,6 @@ footer{background:var(--bg2);border-top:1px solid var(--border);padding:4rem 0 2
 
 <!-- HERO -->
 <section id="hero">
-  <div class="hero-grid"></div>
   <div class="hero-glow"></div>
   <div class="hero-inner">
     <div class="hero-left">
@@ -866,11 +864,11 @@ window.addEventListener('load', () => {
   if(typeof particlesJS !== 'undefined'){
     particlesJS('particles-js',{
       particles:{
-        number:{value:60,density:{enable:true,value_area:900}},
+        number:{value:100,density:{enable:true,value_area:900}},
         color:{value:'#F5C500'},
         shape:{type:'circle'},
-        opacity:{value:0.18,random:true},
-        size:{value:2.5,random:true},
+        opacity:{value:0.35,random:true},
+        size:{value:5,random:true},
         line_linked:{enable:true,distance:140,color:'#F5C500',opacity:0.07,width:1},
         move:{enable:true,speed:1.2,direction:'none',random:true,out_mode:'out'}
       },
