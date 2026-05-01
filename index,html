@@ -1,0 +1,1015 @@
+bash
+
+LOGO_SRC=$(cat /tmp/logo_src.txt)
+echo "Logo length: ${#LOGO_SRC}"
+
+cat > /home/claude/bigjoshtech-final.html << HTMLEOF
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="BIGJOSHTECH — Freelance Developer & Make.com Automation Specialist. Building systems, automations and web products from Akure, Nigeria.">
+<title>BIGJOSHTECH — Developer & Automation Specialist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#F5C500;--gold2:#FFD740;--gold-dim:rgba(245,197,0,0.12);--gold-glow:rgba(245,197,0,0.25);
+  --green:#1aff7a;--green-dim:rgba(26,255,122,0.08);--green-glow:rgba(26,255,122,0.2);
+  --bg:#080808;--bg2:#0d0d0d;--bg3:#131313;--bg4:#1a1a1a;
+  --text:#f0f0f0;--muted:#5a5a5a;--muted2:#2a2a2a;--muted3:#888;
+  --border:rgba(255,255,255,0.055);--border2:rgba(255,255,255,0.1);
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+
+/* ─── CURSOR ─────────────────────────────────────── */
+#cur{position:fixed;width:10px;height:10px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .18s,height .18s,background .18s;mix-blend-mode:difference}
+#cur-ring{position:fixed;width:36px;height:36px;border:1px solid rgba(245,197,0,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .2s,height .2s,border-color .2s}
+body.hovering #cur{width:18px;height:18px}
+body.hovering #cur-ring{width:52px;height:52px;border-color:rgba(245,197,0,.8)}
+
+/* ─── LOADER ─────────────────────────────────────── */
+#loader{position:fixed;inset:0;z-index:2000;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity .8s ease}
+#loader.out{opacity:0;pointer-events:none}
+.ld-logo{width:110px;opacity:0;animation:fadeUp .7s .3s forwards}
+.ld-name{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:.1em;background:linear-gradient(90deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;opacity:0;animation:fadeUp .6s .6s forwards}
+.ld-bar-wrap{width:200px;height:1px;background:var(--muted2);overflow:hidden;border-radius:1px;opacity:0;animation:fadeUp .4s .8s forwards}
+.ld-bar{height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--green));animation:barFill 1.8s 1s cubic-bezier(.4,0,.2,1) forwards}
+.ld-status{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.18em;text-transform:uppercase;opacity:0;animation:fadeUp .4s 1s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes barFill{to{width:100%}}
+
+/* ─── PARTICLES ──────────────────────────────────── */
+#particles-js{position:fixed;inset:0;z-index:0;pointer-events:none}
+
+/* ─── NAV ────────────────────────────────────────── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 0;transition:all .35s}
+nav.scrolled{background:rgba(8,8,8,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);padding:.8rem 0}
+.nav-inner{max-width:1240px;margin:0 auto;padding:0 2.5rem;display:flex;align-items:center;justify-content:space-between;gap:1.5rem}
+.nav-logo{display:flex;align-items:center;gap:9px;text-decoration:none;flex-shrink:0}
+.nav-logo img{height:34px;width:34px;object-fit:contain;border-radius:4px;flex-shrink:0}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1}
+.nav-logo-main{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.07em;background:linear-gradient(90deg,var(--gold) 55%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap}
+.nav-logo-sub{font-family:'DM Mono',monospace;font-size:7px;color:var(--muted);letter-spacing:.13em;margin-top:1px;white-space:nowrap}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center;flex:1;justify-content:center}
+.nav-links a{font-family:'DM Mono',monospace;font-size:11.5px;color:var(--muted);text-decoration:none;letter-spacing:.06em;transition:color .2s;white-space:nowrap;position:relative;padding-bottom:3px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1px;background:var(--gold);transition:width .25s}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:.8rem;flex-shrink:0}
+.nav-cta{font-family:'Syne',sans-serif;font-weight:700;font-size:12px;padding:9px 20px;background:var(--gold);color:#080808;border:none;border-radius:4px;cursor:none;letter-spacing:.05em;text-decoration:none;transition:all .2s;white-space:nowrap}
+.nav-cta:hover{background:var(--gold2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(245,197,0,.25)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:none;background:none;border:none;padding:4px}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--text);transition:all .3s}
+.hamburger.open span:nth-child(1){transform:rotate(45deg) translate(4.5px,4.5px)}
+.hamburger.open span:nth-child(2){opacity:0;transform:translateX(-8px)}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg) translate(4.5px,-4.5px)}
+
+/* ─── MOBILE NAV ─────────────────────────────────── */
+.mob-nav{display:none;position:fixed;inset:0;z-index:99;background:rgba(8,8,8,.97);backdrop-filter:blur(20px);flex-direction:column;align-items:center;justify-content:center;gap:2.2rem}
+.mob-nav.show{display:flex}
+.mob-nav a{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;color:var(--text);text-decoration:none;letter-spacing:.06em;transition:color .2s}
+.mob-nav a:hover{color:var(--gold)}
+
+/* ─── SCROLL-TO-TOP ──────────────────────────────── */
+#scrollTop{position:fixed;bottom:2rem;right:2rem;width:44px;height:44px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:none;z-index:200;opacity:0;transform:translateY(12px);transition:all .3s;pointer-events:none;box-shadow:0 6px 20px rgba(245,197,0,.3)}
+#scrollTop.show{opacity:1;transform:none;pointer-events:auto}
+#scrollTop:hover{background:var(--gold2);transform:translateY(-2px)}
+#scrollTop svg{width:18px;height:18px;fill:#080808}
+
+/* ─── HERO ───────────────────────────────────────── */
+#hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:8rem 0 5rem}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:72px 72px;mask-image:radial-gradient(ellipse 80% 80% at 50% 45%,black 10%,transparent 100%);pointer-events:none;z-index:1}
+.hero-glow{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(245,197,0,.045) 0%,transparent 60%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:1;animation:breathe 10s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.1)}}
+.hero-inner{max-width:1240px;margin:0 auto;padding:0 2.5rem;position:relative;z-index:2;display:grid;grid-template-columns:1fr 430px;gap:4rem;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:10px;color:var(--green);letter-spacing:.13em;margin-bottom:2rem;padding:5px 13px;border:1px solid rgba(26,255,122,.2);border-radius:20px;background:var(--green-dim)}
+.hero-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s ease-in-out infinite;flex-shrink:0}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.15}}
+.hero-h1{font-family:'Bebas Neue',sans-serif;line-height:.93;letter-spacing:.01em;margin-bottom:1.8rem}
+.h1-eyebrow{font-size:clamp(1rem,2vw,1.5rem);font-family:'DM Mono',monospace;font-weight:400;color:var(--muted3);letter-spacing:.16em;display:block;margin-bottom:.5rem}
+.h1-name{font-size:clamp(4.5rem,10vw,9.5rem);display:block;color:var(--text);line-height:.95}
+.h1-action{font-size:clamp(4.5rem,10vw,9.5rem);display:block;-webkit-text-stroke:1.5px var(--gold);color:transparent;line-height:.95}
+.h1-sub{font-size:clamp(1.4rem,2.5vw,2.2rem);display:block;color:var(--gold);font-family:'Syne',sans-serif;font-weight:800;letter-spacing:.02em;margin-top:.8rem}
+.tw-wrap{margin-bottom:2.2rem}
+.tw-label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.14em;margin-bottom:.4rem;text-transform:uppercase}
+.tw-text{font-size:1rem;color:var(--muted3);line-height:1.75;min-height:3.2rem;max-width:500px}
+.tw-text .hl{color:var(--text);font-weight:500}
+.tw-cur{display:inline-block;width:2px;height:1em;background:var(--gold);margin-left:2px;vertical-align:middle;animation:curBlink .85s ease-in-out infinite}
+@keyframes curBlink{0%,100%{opacity:1}50%{opacity:0}}
+.hero-ctas{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2.5rem}
+.btn-gold{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:13px 30px;background:var(--gold);color:#080808;border:none;border-radius:4px;cursor:none;letter-spacing:.05em;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:all .25s}
+.btn-gold:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 14px 36px rgba(245,197,0,.22)}
+.btn-ghost{font-family:'Syne',sans-serif;font-weight:700;font-size:13px;padding:12px 30px;background:transparent;color:var(--text);border:1px solid var(--border2);border-radius:4px;cursor:none;letter-spacing:.05em;text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:all .25s}
+.btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-2px)}
+.hero-social{display:flex;gap:.7rem;margin-bottom:2.5rem}
+.social-btn{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.04);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;color:var(--muted3);transition:all .25s;text-decoration:none;flex-shrink:0}
+.social-btn:hover{background:var(--gold);border-color:var(--gold);color:#080808;transform:translateY(-4px)}
+.social-btn svg{width:16px;height:16px;fill:currentColor}
+.hero-stats{display:flex;gap:0;border:1px solid var(--border2);border-radius:8px;overflow:hidden}
+.h-stat{flex:1;padding:1rem .8rem;border-right:1px solid var(--border2);text-align:center}
+.h-stat:last-child{border-right:none}
+.h-stat .n{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--gold);line-height:1}
+.h-stat .l{font-family:'DM Mono',monospace;font-size:8.5px;color:var(--muted);letter-spacing:.06em;margin-top:3px}
+
+/* HERO CODE PANEL */
+.hero-code{background:var(--bg2);border:1px solid var(--border2);border-radius:14px;overflow:hidden;position:relative;z-index:2}
+.code-hdr{display:flex;align-items:center;gap:7px;padding:11px 16px;border-bottom:1px solid var(--border);background:var(--bg3)}
+.c-dot{width:10px;height:10px;border-radius:50%}
+.code-file{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);margin-left:6px;letter-spacing:.05em}
+.code-body{padding:1.4rem 1.6rem;font-family:'DM Mono',monospace;font-size:12.5px;line-height:2}
+.cl{display:flex;gap:.9rem}
+.ln{color:var(--muted2);user-select:none;min-width:18px;text-align:right;font-size:11px}
+.kw{color:#c792ea}.st{color:var(--gold)}.pr{color:#82aaff}.cm{color:#3d3d4d}.vl{color:var(--green)}.fn{color:#ffcb6b}.op{color:#89ddff}
+
+/* ─── TICKER ─────────────────────────────────────── */
+.ticker-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:13px 0;background:var(--bg2);position:relative;z-index:2}
+.ticker-track{display:flex;animation:tickL 30s linear infinite;width:max-content}
+.ticker-track:hover{animation-play-state:paused}
+.t-item{display:flex;align-items:center;gap:10px;padding:0 2.2rem;white-space:nowrap;font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.07em}
+.t-dot{width:3px;height:3px;border-radius:50%;background:var(--gold);flex-shrink:0}
+@keyframes tickL{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ─── STATS ──────────────────────────────────────── */
+#stats{padding:6rem 0;position:relative;z-index:2}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
+.stat-card{text-align:center;padding:2.5rem 2rem;background:var(--bg2);border:1px solid var(--border);border-radius:16px;transition:all .4s ease}
+.stat-card:hover{background:var(--bg3);border-color:var(--gold-glow);transform:translateY(-8px);box-shadow:0 20px 48px rgba(245,197,0,.08)}
+.stat-num{font-family:'Bebas Neue',sans-serif;font-size:3.8rem;line-height:1;background:linear-gradient(135deg,var(--gold),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.4rem}
+.stat-lbl{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+
+/* ─── SECTIONS ───────────────────────────────────── */
+section{padding:8rem 0;position:relative;z-index:2}
+.container{max-width:1240px;margin:0 auto;padding:0 2.5rem}
+.eyebrow{font-family:'DM Mono',monospace;font-size:10px;color:var(--gold);letter-spacing:.18em;text-transform:uppercase;display:flex;align-items:center;gap:10px;margin-bottom:.7rem}
+.eyebrow::after{content:'';height:1px;background:var(--border2);width:48px}
+.sec-h{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,5vw,5rem);line-height:.93;letter-spacing:.01em;margin-bottom:1rem}
+.sec-h em{color:var(--gold);font-style:normal}
+.sec-sub{color:var(--muted3);line-height:1.8;max-width:500px;font-size:.93rem;margin-bottom:3.5rem}
+.divider{height:1px;background:var(--border);position:relative;z-index:2}
+
+/* ─── SERVICES ───────────────────────────────────── */
+#services{background:var(--bg2)}
+.svc-list{margin-top:4rem;border-top:1px solid var(--border)}
+.svc-item{border-bottom:1px solid var(--border);cursor:none}
+.svc-hdr{display:flex;align-items:center;gap:2rem;padding:1.8rem 0;transition:all .3s}
+.svc-num{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--muted2);min-width:36px;transition:color .25s}
+.svc-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1.25rem;flex:1;transition:color .25s}
+.svc-arr{font-size:1.4rem;color:var(--muted);transition:all .3s;font-weight:300}
+.svc-item:hover .svc-name,.svc-item.open .svc-name{color:var(--gold)}
+.svc-item:hover .svc-num,.svc-item.open .svc-num{color:var(--gold)}
+.svc-item:hover .svc-arr,.svc-item.open .svc-arr{color:var(--gold);transform:rotate(45deg)}
+.svc-item:hover .svc-hdr,.svc-item.open .svc-hdr{padding-left:.9rem}
+.svc-body{max-height:0;overflow:hidden;transition:max-height .5s ease,padding .3s}
+.svc-body.open{max-height:280px;padding-bottom:2rem}
+.svc-body-in{padding:0 0 0 calc(36px + 2rem)}
+.svc-body-in p{color:var(--muted3);line-height:1.85;font-size:.9rem;max-width:580px;margin-bottom:1rem}
+.svc-tags{display:flex;flex-wrap:wrap;gap:6px}
+.s-tag{font-family:'DM Mono',monospace;font-size:9.5px;padding:3px 10px;border-radius:20px;border:1px solid var(--border2);color:var(--muted3);letter-spacing:.04em}
+
+/* ─── WORKS ──────────────────────────────────────── */
+#works{background:var(--bg)}
+.filter-bar{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:3rem}
+.f-btn{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.08em;padding:7px 16px;border-radius:3px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:none;transition:all .2s}
+.f-btn.active,.f-btn:hover{background:var(--gold);color:#080808;border-color:var(--gold);font-weight:500}
+
+/* Project rows (list view) */
+.works-list{border-top:1px solid var(--border);margin-bottom:4rem}
+.proj-row{display:grid;grid-template-columns:72px 1fr 260px 110px;gap:2rem;align-items:center;padding:2rem 0;border-bottom:1px solid var(--border);cursor:none;position:relative;transition:padding .3s}
+.proj-row::before{content:'';position:absolute;inset:0;background:var(--gold-dim);opacity:0;transition:opacity .35s}
+.proj-row:hover::before{opacity:1}
+.proj-row:hover{padding-left:.6rem}
+.proj-row:hover .pj-name{color:var(--gold)}
+.pj-num{font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--muted2);position:relative;z-index:1}
+.pj-info{position:relative;z-index:1}
+.pj-name{font-family:'Syne',sans-serif;font-weight:700;font-size:1.15rem;margin-bottom:.3rem;transition:color .25s}
+.pj-desc{font-size:.84rem;color:var(--muted3);line-height:1.6}
+.pj-tags{display:flex;flex-wrap:wrap;gap:5px;position:relative;z-index:1}
+.pj-tag{font-family:'DM Mono',monospace;font-size:9px;padding:3px 9px;border-radius:20px;border:1px solid var(--border2);color:var(--muted3);letter-spacing:.04em}
+.pj-link{font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-decoration:none;letter-spacing:.05em;position:relative;z-index:1;display:flex;align-items:center;justify-content:flex-end;gap:4px;transition:color .2s}
+.proj-row:hover .pj-link{color:var(--gold)}
+
+/* Project showcase cards */
+.projects-showcase{display:flex;flex-direction:column;gap:2px;margin-top:1rem}
+.proj-card{display:grid;grid-template-columns:1fr 1fr;gap:0;background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:all .4s ease}
+.proj-card:hover{border-color:rgba(245,197,0,.3);box-shadow:0 24px 64px rgba(0,0,0,.6),0 0 0 1px rgba(245,197,0,.08);transform:translateY(-4px)}
+.proj-card.flip{direction:rtl}
+.proj-card.flip > *{direction:ltr}
+.proj-visual{background:var(--bg3);min-height:320px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.proj-visual-inner{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--gold);opacity:.08;letter-spacing:.04em;text-align:center;padding:2rem}
+.proj-visual-badge{position:absolute;top:1.2rem;left:1.2rem;background:var(--gold);color:#080808;font-family:'DM Mono',monospace;font-size:9px;font-weight:700;padding:4px 10px;border-radius:2px;letter-spacing:.08em}
+.proj-details{padding:2.5rem}
+.proj-details h3{font-family:'Syne',sans-serif;font-weight:800;font-size:1.6rem;margin-bottom:1rem;background:linear-gradient(90deg,var(--gold),var(--gold2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.proj-details p{color:var(--muted3);line-height:1.8;font-size:.9rem;margin-bottom:1.5rem}
+.proj-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding:1.2rem;background:rgba(245,197,0,.04);border-radius:10px;border:1px solid var(--border);margin-bottom:1.5rem}
+.pm-item{text-align:center}
+.pm-val{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--gold);line-height:1;margin-bottom:.2rem}
+.pm-lbl{font-size:.75rem;color:var(--muted3);font-family:'DM Mono',monospace;letter-spacing:.04em}
+.proj-tech-tags{display:flex;flex-wrap:wrap;gap:.5rem}
+.pt-tag{font-family:'DM Mono',monospace;font-size:10px;padding:4px 10px;border-radius:20px;border:1px solid rgba(245,197,0,.2);color:var(--gold);background:var(--gold-dim);letter-spacing:.04em}
+
+/* ─── ABOUT ──────────────────────────────────────── */
+#about{background:var(--bg2)}
+.about-grid{display:grid;grid-template-columns:380px 1fr;gap:5.5rem;align-items:start;margin-top:4rem}
+.about-img-box{aspect-ratio:4/5;background:var(--bg3);border-radius:14px;border:1px solid var(--border2);overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+.about-img-letter{font-family:'Bebas Neue',sans-serif;font-size:9rem;color:var(--gold);opacity:.06;line-height:1;user-select:none}
+.about-logo-mid{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:130px;opacity:.1}
+.about-img-badge{position:absolute;bottom:1.2rem;left:1.2rem;background:rgba(8,8,8,.92);border:1px solid var(--border2);border-radius:8px;padding:10px 14px;backdrop-filter:blur(8px)}
+.about-img-badge .b-n{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--gold);line-height:1}
+.about-img-badge .b-l{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.07em;margin-top:2px}
+.about-img-corner{position:absolute;top:1.2rem;right:1.2rem}
+.about-img-corner img{width:52px;border-radius:6px;opacity:.8}
+.about-text p{color:var(--muted3);line-height:1.9;font-size:.93rem;margin-bottom:1.1rem}
+.about-text strong{color:var(--text);font-weight:500}
+
+/* Expertise grid */
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin:2rem 0}
+.exp-card{padding:1.4rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;transition:all .3s}
+.exp-card:hover{border-color:rgba(245,197,0,.25);transform:translateY(-3px)}
+.exp-card h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;color:var(--gold);margin-bottom:.4rem}
+.exp-card p{font-size:.82rem;color:var(--muted3);line-height:1.65}
+
+/* Philosophy grid */
+.phil-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+.phil-item{padding:1.2rem;background:var(--bg3);border:1px solid var(--border);border-radius:10px;transition:all .3s}
+.phil-item:hover{border-color:rgba(245,197,0,.2);background:var(--bg4)}
+.phil-icon{font-size:1.5rem;margin-bottom:.5rem}
+.phil-item h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:.3rem}
+.phil-item p{font-size:.8rem;color:var(--muted3);line-height:1.65}
+
+/* Timeline */
+.tl{margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.tl-eyebrow{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.14em;margin-bottom:1.5rem;text-transform:uppercase}
+.tl-item{display:flex;gap:1.2rem;margin-bottom:1.4rem;position:relative}
+.tl-item::before{content:'';position:absolute;left:5px;top:18px;bottom:-1.4rem;width:1px;background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-dot{width:11px;height:11px;border-radius:50%;border:2px solid var(--muted2);background:var(--bg2);flex-shrink:0;margin-top:4px;position:relative;z-index:1}
+.tl-dot.on{border-color:var(--gold);background:rgba(245,197,0,.2)}
+.tl-yr{font-family:'DM Mono',monospace;font-size:9px;color:var(--gold);letter-spacing:.07em;margin-bottom:.15rem;text-transform:uppercase}
+.tl-title{font-family:'Syne',sans-serif;font-weight:600;font-size:.9rem;margin-bottom:.15rem}
+.tl-desc{font-size:.82rem;color:var(--muted3);line-height:1.6}
+
+/* ─── SKILLS ─────────────────────────────────────── */
+#skills{background:var(--bg);padding:5rem 0}
+.sk-inner{overflow:hidden;display:flex;flex-direction:column;gap:1rem;margin-top:2.5rem}
+.sk-row{display:flex;gap:.8rem;animation:scrollL 22s linear infinite;width:max-content}
+.sk-row:nth-child(2){animation-direction:reverse;animation-duration:28s}
+.sk-row:hover{animation-play-state:paused}
+.sk-chip{display:flex;align-items:center;gap:7px;padding:9px 16px;background:var(--bg3);border:1px solid var(--border);border-radius:5px;white-space:nowrap;font-size:12px;color:var(--muted3);flex-shrink:0;transition:all .2s}
+.sk-chip:hover{border-color:var(--gold-glow);color:var(--text)}
+@keyframes scrollL{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* ─── TESTIMONIALS ───────────────────────────────── */
+#testimonials{background:var(--bg2)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.testi-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:1.8rem;display:flex;flex-direction:column;gap:1.3rem;transition:all .35s}
+.testi-card:hover{border-color:var(--gold-glow);transform:translateY(-5px);box-shadow:0 16px 48px rgba(0,0,0,.5)}
+.tc-top{display:flex;justify-content:space-between;align-items:flex-start}
+.tc-stars{color:var(--gold);font-size:11px;letter-spacing:2px}
+.tc-qm{font-family:'Bebas Neue',sans-serif;font-size:3.5rem;color:var(--muted2);line-height:.7;opacity:.5}
+.tc-body{color:var(--muted3);font-size:.875rem;line-height:1.85;font-style:italic;flex:1}
+.tc-foot{display:flex;align-items:center;gap:11px;padding-top:1.2rem;border-top:1px solid var(--border)}
+.tc-av{width:36px;height:36px;border-radius:50%;background:var(--gold-dim);border:1px solid var(--gold-glow);display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:700;font-size:12px;color:var(--gold);flex-shrink:0}
+.tc-name{font-weight:500;font-size:13px;margin-bottom:1px}
+.tc-role{font-size:10px;color:var(--muted);font-family:'DM Mono',monospace;letter-spacing:.04em}
+
+/* ─── CONTACT ────────────────────────────────────── */
+#contact{background:var(--bg);position:relative;overflow:hidden}
+.ct-bg{position:absolute;bottom:-4rem;right:-2rem;font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,16vw,14rem);color:rgba(245,197,0,.025);line-height:1;pointer-events:none;white-space:nowrap;letter-spacing:.03em;z-index:1}
+.ct-inner{display:grid;grid-template-columns:1fr 1fr;gap:6rem;position:relative;z-index:2;align-items:start}
+.ct-punch{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3.8rem);line-height:.95;margin-bottom:1.4rem}
+.ct-punch em{color:var(--gold);font-style:normal}
+.ct-desc{color:var(--muted3);line-height:1.85;margin-bottom:2.5rem;font-size:.93rem}
+.channels{display:flex;flex-direction:column;gap:.9rem}
+.ch{display:flex;align-items:center;gap:1rem;padding:.9rem 1.1rem;background:var(--bg3);border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--text);transition:all .25s;cursor:none}
+.ch:hover{border-color:var(--gold-glow);background:var(--bg4)}
+.ch-ico{width:36px;height:36px;border-radius:6px;background:var(--gold-dim);border:1px solid var(--gold-glow);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;font-family:'DM Mono',monospace;font-weight:600;color:var(--gold)}
+.ch-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
+.ch-val{font-size:13px;font-weight:500;margin-top:1px}
+.ch-arr{margin-left:auto;color:var(--muted);font-size:16px;transition:all .2s}
+.ch:hover .ch-arr{color:var(--gold);transform:translateX(3px)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.fg{display:flex;flex-direction:column;gap:5px;margin-bottom:.9rem}
+.fg label{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+.fg input,.fg textarea,.fg select{background:var(--bg3);border:1px solid var(--border2);border-radius:6px;padding:12px 15px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s;resize:none;width:100%;-webkit-appearance:none}
+.fg input:focus,.fg textarea:focus,.fg select:focus{border-color:var(--gold)}
+.fg input::placeholder,.fg textarea::placeholder{color:var(--muted2)}
+.fg select{color:var(--muted3)}
+.fg select option{background:var(--bg3);color:var(--text)}
+.form-btn{width:100%;padding:15px;background:var(--gold);color:#080808;border:none;border-radius:5px;font-family:'Syne',sans-serif;font-weight:700;font-size:14px;letter-spacing:.05em;cursor:none;transition:all .25s;margin-top:.4rem}
+.form-btn:hover{background:var(--gold2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(245,197,0,.18)}
+
+/* ─── FOOTER ─────────────────────────────────────── */
+footer{background:var(--bg2);border-top:1px solid var(--border);padding:4rem 0 2rem;position:relative;z-index:2}
+.ft-top{display:grid;grid-template-columns:2fr 1fr 1fr;gap:4rem;padding-bottom:3rem;border-bottom:1px solid var(--border)}
+.ft-brand{}
+.ft-logo-wrap{display:flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:1rem}
+.ft-logo-wrap img{height:42px;width:42px;object-fit:contain;border-radius:5px}
+.ft-logo-main{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.06em;background:linear-gradient(90deg,var(--gold) 55%,var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ft-logo-sub{font-family:'DM Mono',monospace;font-size:7.5px;color:var(--muted);letter-spacing:.13em;margin-top:1px}
+.ft-brand-desc{font-size:.85rem;color:var(--muted3);line-height:1.75;margin-top:.5rem}
+.ft-col h4{font-family:'Syne',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:1.2rem}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:.6rem}
+.ft-col a{font-size:.85rem;color:var(--muted3);text-decoration:none;transition:all .2s;display:block}
+.ft-col a:hover{color:var(--gold);transform:translateX(3px)}
+.ft-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;padding-top:2rem}
+.ft-copy{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:.06em}
+.ft-made{font-family:'DM Mono',monospace;font-size:10px;color:var(--muted2)}
+
+/* ─── REVEAL ANIMATIONS ──────────────────────────── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+.reveal-l{opacity:0;transform:translateX(-24px);transition:opacity .7s ease,transform .7s ease}
+.reveal-l.visible{opacity:1;transform:none}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}
+
+/* ─── RESPONSIVE ─────────────────────────────────── */
+@media(max-width:1024px){
+  .stats-grid{grid-template-columns:repeat(2,1fr)}
+  .proj-card{grid-template-columns:1fr}
+  .proj-card.flip{direction:ltr}
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .testi-grid{grid-template-columns:1fr 1fr}
+  .ft-top{grid-template-columns:1fr 1fr;gap:2.5rem}
+}
+@media(max-width:900px){
+  .hero-inner{grid-template-columns:1fr}
+  .hero-code{display:none}
+  .ct-inner{grid-template-columns:1fr;gap:3rem}
+  .nav-links{display:none}
+  .nav-cta{display:none}
+  .hamburger{display:flex}
+  section{padding:5rem 0}
+  .proj-row{grid-template-columns:52px 1fr;gap:1rem}
+  .pj-tags,.pj-link{display:none}
+  .exp-grid,.phil-grid{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .h1-name,.h1-action{font-size:3.8rem}
+  .form-row{grid-template-columns:1fr}
+  .stats-grid{grid-template-columns:1fr 1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .ft-top{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <img class="ld-logo" src="${LOGO_SRC}" alt="BIGJOSHTECH">
+  <div class="ld-name">BIGJOSHTECH</div>
+  <div class="ld-bar-wrap"><div class="ld-bar"></div></div>
+  <div class="ld-status">// Booting systems from Akure, Nigeria</div>
+</div>
+
+<!-- PARTICLES -->
+<div id="particles-js"></div>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <button style="position:absolute;top:1.5rem;right:2rem;background:none;border:none;color:var(--text);font-size:1.8rem;cursor:pointer;font-family:'DM Mono',monospace" onclick="closeMob()">✕</button>
+  <a href="#hero" onclick="closeMob()">Home</a>
+  <a href="#services" onclick="closeMob()">Services</a>
+  <a href="#works" onclick="closeMob()">Works</a>
+  <a href="#about" onclick="closeMob()">About</a>
+  <a href="#testimonials" onclick="closeMob()">Testimonials</a>
+  <a href="#contact" onclick="closeMob()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo">
+      <img src="${LOGO_SRC}" alt="BIGJOSHTECH Logo">
+      <div class="nav-logo-text">
+        <span class="nav-logo-main">BIGJOSHTECH</span>
+        <span class="nav-logo-sub">BIGTECH GLOBAL</span>
+      </div>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#services">services</a></li>
+      <li><a href="#works">works</a></li>
+      <li><a href="#about">about</a></li>
+      <li><a href="#testimonials">testimonials</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="#contact" class="nav-cta">Hire Me</a>
+      <button class="hamburger" id="hamburger" onclick="toggleMob()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge reveal">OPEN TO PROJECTS &nbsp;·&nbsp; AKURE, NIGERIA 🇳🇬</div>
+      <h1 class="hero-h1 reveal d1">
+        <span class="h1-eyebrow">Freelance Developer &amp; Automation Specialist</span>
+        <span class="h1-name">JOSHUA</span>
+        <span class="h1-action">BUILDS.</span>
+        <span class="h1-sub">Systems. Products. Results.</span>
+      </h1>
+      <div class="tw-wrap reveal d2">
+        <div class="tw-label">// what I actually do</div>
+        <div class="tw-text" id="twText"><span class="tw-cur"></span></div>
+      </div>
+      <div class="hero-ctas reveal d3">
+        <a href="#works" class="btn-gold">See My Work ↓</a>
+        <a href="#contact" class="btn-ghost">Let's Talk →</a>
+      </div>
+      <div class="hero-social reveal d3">
+        <a href="https://www.linkedin.com/in/joshua-bolaji-1758573a1" target="_blank" class="social-btn" title="LinkedIn">
+          <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="mailto:hello@bigjoshtech.com" class="social-btn" title="Email">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+        </a>
+        <a href="https://wa.me/234" target="_blank" class="social-btn" title="WhatsApp">
+          <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="https://github.com/BIGJOSHIG" target="_blank" class="social-btn" title="GitHub">
+          <svg viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+        </a>
+      </div>
+      <div class="hero-stats reveal d4">
+        <div class="h-stat"><div class="n" data-target="3">0</div><div class="l">PROJECTS SHIPPED</div></div>
+        <div class="h-stat"><div class="n" data-target="300">0</div><div class="l">FUTA LEVEL</div></div>
+        <div class="h-stat"><div class="n">24/7</div><div class="l">AUTOMATIONS LIVE</div></div>
+      </div>
+    </div>
+    <div class="hero-code reveal d2">
+      <div class="code-hdr">
+        <div class="c-dot" style="background:#ff5f57"></div>
+        <div class="c-dot" style="background:#ffbd2e"></div>
+        <div class="c-dot" style="background:#28c840"></div>
+        <span class="code-file">portfolio.js — BIGJOSHTECH</span>
+      </div>
+      <div class="code-body">
+        <div class="cl"><span class="ln">01</span><span class="cm">// welcome to my universe</span></div>
+        <div class="cl"><span class="ln">02</span></div>
+        <div class="cl"><span class="ln">03</span><span><span class="kw">const </span><span class="pr">developer</span><span class="op"> = </span><span>{</span></span></div>
+        <div class="cl"><span class="ln">04</span><span style="padding-left:1.4rem"><span class="fn">name</span><span class="op">:</span> <span class="st">'Joshua'</span><span>,</span></span></div>
+        <div class="cl"><span class="ln">05</span><span style="padding-left:1.4rem"><span class="fn">brand</span><span class="op">:</span> <span class="st">'BIGJOSHTECH'</span><span>,</span></span></div>
+        <div class="cl"><span class="ln">06</span><span style="padding-left:1.4rem"><span class="fn">parent</span><span class="op">:</span> <span class="st">'BIGTECH GLOBAL'</span><span>,</span></span></div>
+        <div class="cl"><span class="ln">07</span><span style="padding-left:1.4rem"><span class="fn">base</span><span class="op">:</span> <span class="st">'Akure, Nigeria 🇳🇬'</span><span>,</span></span></div>
+        <div class="cl"><span class="ln">08</span><span style="padding-left:1.4rem"><span class="fn">skills</span><span class="op">:</span> <span>[</span></span></div>
+        <div class="cl"><span class="ln">09</span><span style="padding-left:2.8rem"><span class="st">'Make.com'</span><span>, </span><span class="st">'AI'</span><span>, </span><span class="st">'Web Dev'</span></span></div>
+        <div class="cl"><span class="ln">10</span><span style="padding-left:1.4rem"><span>],</span></span></div>
+        <div class="cl"><span class="ln">11</span><span style="padding-left:1.4rem"><span class="fn">status</span><span class="op">:</span> <span class="vl">'available'</span><span>,</span></span></div>
+        <div class="cl"><span class="ln">12</span><span style="padding-left:1.4rem"><span class="fn">motto</span><span class="op">:</span> <span class="st">"Build Real. Ship Fast."</span></span></div>
+        <div class="cl"><span class="ln">13</span><span>};</span></div>
+        <div class="cl"><span class="ln">14</span></div>
+        <div class="cl"><span class="ln">15</span><span><span class="pr">developer</span><span class="op">.</span><span class="fn">hire</span><span>();</span> <span class="cm">// 🔥 open for work</span></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <div class="t-item"><span class="t-dot"></span>Make.com Automation</div>
+    <div class="t-item"><span class="t-dot"></span>AI Solutions</div>
+    <div class="t-item"><span class="t-dot"></span>Web Design</div>
+    <div class="t-item"><span class="t-dot"></span>Paystack Integration</div>
+    <div class="t-item"><span class="t-dot"></span>Google Sheets Workflows</div>
+    <div class="t-item"><span class="t-dot"></span>LinkedIn Automation</div>
+    <div class="t-item"><span class="t-dot"></span>E-Commerce</div>
+    <div class="t-item"><span class="t-dot"></span>React &amp; Node.js</div>
+    <div class="t-item"><span class="t-dot"></span>AI Chatbots</div>
+    <div class="t-item"><span class="t-dot"></span>Web App Development</div>
+    <div class="t-item"><span class="t-dot"></span>FUTA · PMT · 300L</div>
+    <div class="t-item"><span class="t-dot"></span>BIGTECH GLOBAL</div>
+    <div class="t-item"><span class="t-dot"></span>Make.com Automation</div>
+    <div class="t-item"><span class="t-dot"></span>AI Solutions</div>
+    <div class="t-item"><span class="t-dot"></span>Web Design</div>
+    <div class="t-item"><span class="t-dot"></span>Paystack Integration</div>
+    <div class="t-item"><span class="t-dot"></span>Google Sheets Workflows</div>
+    <div class="t-item"><span class="t-dot"></span>LinkedIn Automation</div>
+    <div class="t-item"><span class="t-dot"></span>E-Commerce</div>
+    <div class="t-item"><span class="t-dot"></span>React &amp; Node.js</div>
+    <div class="t-item"><span class="t-dot"></span>AI Chatbots</div>
+    <div class="t-item"><span class="t-dot"></span>Web App Development</div>
+    <div class="t-item"><span class="t-dot"></span>FUTA · PMT · 300L</div>
+    <div class="t-item"><span class="t-dot"></span>BIGTECH GLOBAL</div>
+  </div>
+</div>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="stats-grid">
+      <div class="stat-card reveal"><div class="stat-num" data-target="3" data-suffix="+">0</div><div class="stat-lbl">Projects Shipped</div></div>
+      <div class="stat-card reveal d1"><div class="stat-num" data-target="4" data-suffix="+">0</div><div class="stat-lbl">Services Offered</div></div>
+      <div class="stat-card reveal d2"><div class="stat-num" data-target="100" data-suffix="%">0</div><div class="stat-lbl">Client Satisfaction</div></div>
+      <div class="stat-card reveal d3"><div class="stat-num">24/7</div><div class="stat-lbl">Automations Running</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="container">
+    <div class="eyebrow reveal">What I Build</div>
+    <h2 class="sec-h reveal d1">HOW I CAN<br><em>HELP YOU</em></h2>
+    <p class="sec-sub reveal d2">Tap any service to see exactly what's involved.</p>
+    <div class="svc-list">
+      <div class="svc-item reveal" onclick="toggleSvc(this)">
+        <div class="svc-hdr"><span class="svc-num">01</span><span class="svc-name">Make.com Automation</span><span class="svc-arr">+</span></div>
+        <div class="svc-body"><div class="svc-body-in">
+          <p>You know those tasks you do every single day that feel pointless — copying data between apps, posting to social on a schedule, sending the same follow-up emails? I kill all of that. I build Make.com workflows that connect your tools and keep your operations running around the clock, without you lifting a finger.</p>
+          <div class="svc-tags"><span class="s-tag">Make.com</span><span class="s-tag">Google Sheets</span><span class="s-tag">Webhooks</span><span class="s-tag">LinkedIn API</span><span class="s-tag">CRM Sync</span><span class="s-tag">Twilio</span></div>
+        </div></div>
+      </div>
+      <div class="svc-item reveal d1" onclick="toggleSvc(this)">
+        <div class="svc-hdr"><span class="svc-num">02</span><span class="svc-name">AI Digital Solutions</span><span class="svc-arr">+</span></div>
+        <div class="svc-body"><div class="svc-body-in">
+          <p>AI isn't just hype — it's a real competitive edge if you know how to use it. I help businesses plug in AI where it actually matters: chatbots that handle customer questions 24/7, content systems that generate and publish on schedule, and smart assistants built on ChatGPT or Claude that cut your team's workload in half.</p>
+          <div class="svc-tags"><span class="s-tag">ChatGPT API</span><span class="s-tag">Claude AI</span><span class="s-tag">AI Chatbots</span><span class="s-tag">Content Pipelines</span><span class="s-tag">AI Agents</span></div>
+        </div></div>
+      </div>
+      <div class="svc-item reveal d2" onclick="toggleSvc(this)">
+        <div class="svc-hdr"><span class="svc-num">03</span><span class="svc-name">Web Design</span><span class="svc-arr">+</span></div>
+        <div class="svc-body"><div class="svc-body-in">
+          <p>Most websites look decent but don't do anything. Mine are built to convert — every section has a job to do and does it. Fast load times, mobile-first layout, and a design language that makes people actually stay and read instead of bouncing in three seconds.</p>
+          <div class="svc-tags"><span class="s-tag">HTML / CSS</span><span class="s-tag">JavaScript</span><span class="s-tag">Responsive</span><span class="s-tag">Figma</span><span class="s-tag">Landing Pages</span></div>
+        </div></div>
+      </div>
+      <div class="svc-item reveal d3" onclick="toggleSvc(this)">
+        <div class="svc-hdr"><span class="svc-num">04</span><span class="svc-name">Web App Development</span><span class="svc-arr">+</span></div>
+        <div class="svc-body"><div class="svc-body-in">
+          <p>Got an idea that needs more than just a website? I build full web applications — e-commerce stores with Paystack baked in for Nigerian buyers, dashboards, platforms, tools. Whatever your business needs to actually run online, I can build it.</p>
+          <div class="svc-tags"><span class="s-tag">React</span><span class="s-tag">Node.js</span><span class="s-tag">Paystack</span><span class="s-tag">E-Commerce</span><span class="s-tag">Databases</span></div>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="container">
+    <div class="eyebrow reveal">Selected Works</div>
+    <h2 class="sec-h reveal d1">THINGS I'VE<br><em>BUILT</em></h2>
+    <p class="sec-sub reveal d2">Each one was a real problem. Each one got solved.</p>
+    <div class="filter-bar reveal d2">
+      <button class="f-btn active" data-f="all">all</button>
+      <button class="f-btn" data-f="web">web</button>
+      <button class="f-btn" data-f="automation">automation</button>
+      <button class="f-btn" data-f="ecommerce">e-commerce</button>
+    </div>
+    <!-- List view -->
+    <div class="works-list">
+      <div class="proj-row reveal" data-tags="web ecommerce">
+        <div class="pj-num">_01.</div>
+        <div class="pj-info"><div class="pj-name">NEXUS</div><div class="pj-desc">Gaming e-commerce storefront for the Nigerian market. Naira pricing, Paystack, multi-step checkout.</div></div>
+        <div class="pj-tags"><span class="pj-tag">E-Commerce</span><span class="pj-tag">Web App</span><span class="pj-tag">Paystack</span></div>
+        <a href="#" class="pj-link">View →</a>
+      </div>
+      <div class="proj-row reveal d1" data-tags="web ecommerce">
+        <div class="pj-num">_02.</div>
+        <div class="pj-info"><div class="pj-name">GearZone</div><div class="pj-desc">Dark cyberpunk gaming store. Immersive UI, Nigerian payment processor support built in.</div></div>
+        <div class="pj-tags"><span class="pj-tag">E-Commerce</span><span class="pj-tag">Web Design</span><span class="pj-tag">Cyberpunk UI</span></div>
+        <a href="#" class="pj-link">View →</a>
+      </div>
+      <div class="proj-row reveal d2" data-tags="automation">
+        <div class="pj-num">_03.</div>
+        <div class="pj-info"><div class="pj-name">LinkedIn Auto-Poster</div><div class="pj-desc">Make.com scenario reading from Google Sheets, posting to LinkedIn daily at 6PM with duplicate prevention.</div></div>
+        <div class="pj-tags"><span class="pj-tag">Make.com</span><span class="pj-tag">Automation</span><span class="pj-tag">LinkedIn</span></div>
+        <a href="#" class="pj-link">View →</a>
+      </div>
+    </div>
+    <!-- Showcase cards -->
+    <div class="projects-showcase">
+      <div class="proj-card reveal" data-tags="web ecommerce">
+        <div class="proj-visual">
+          <div class="proj-visual-inner">NEXUS</div>
+          <div class="proj-visual-badge">E-COMMERCE</div>
+        </div>
+        <div class="proj-details">
+          <h3>NEXUS — Gaming Store</h3>
+          <p>A gaming e-commerce storefront built from scratch for the Nigerian market. Naira pricing, Paystack checkout, multi-step cart experience. Every detail designed around how Nigerian gamers actually shop.</p>
+          <div class="proj-metrics">
+            <div class="pm-item"><div class="pm-val">₦</div><div class="pm-lbl">Naira Pricing</div></div>
+            <div class="pm-item"><div class="pm-val">3-step</div><div class="pm-lbl">Checkout Flow</div></div>
+            <div class="pm-item"><div class="pm-val">100%</div><div class="pm-lbl">Mobile Ready</div></div>
+          </div>
+          <div class="proj-tech-tags"><span class="pt-tag">E-Commerce</span><span class="pt-tag">Paystack</span><span class="pt-tag">Web App</span><span class="pt-tag">JavaScript</span></div>
+        </div>
+      </div>
+      <div class="proj-card flip reveal d1" data-tags="automation">
+        <div class="proj-visual" style="background:linear-gradient(135deg,#0a0f05,#0d1f0a)">
+          <div class="proj-visual-inner" style="font-size:1.1rem;opacity:.4;text-align:center">LinkedIn<br>Auto-Poster<br>Make.com</div>
+          <div class="proj-visual-badge">AUTOMATION</div>
+        </div>
+        <div class="proj-details">
+          <h3>LinkedIn Auto-Poster</h3>
+          <p>A Make.com scenario that reads from a Google Sheets content calendar and posts to LinkedIn every day at 6PM sharp. Smart enough to skip duplicate entries without being told. Set it once, it runs forever.</p>
+          <div class="proj-metrics">
+            <div class="pm-item"><div class="pm-val">24/7</div><div class="pm-lbl">Auto-Running</div></div>
+            <div class="pm-item"><div class="pm-val">0</div><div class="pm-lbl">Duplicates</div></div>
+            <div class="pm-item"><div class="pm-val">6PM</div><div class="pm-lbl">Daily Post Time</div></div>
+          </div>
+          <div class="proj-tech-tags"><span class="pt-tag">Make.com</span><span class="pt-tag">Google Sheets</span><span class="pt-tag">LinkedIn API</span><span class="pt-tag">Automation</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <div class="eyebrow reveal">Tech &amp; Tools</div>
+    <h2 class="sec-h reveal d1" style="font-size:clamp(2rem,4vw,3.2rem)">MY <em>STACK</em></h2>
+  </div>
+  <div class="sk-inner">
+    <div class="sk-row">
+      <div class="sk-chip">⚡ Make.com</div><div class="sk-chip">🤖 AI / ChatGPT</div><div class="sk-chip">⚛️ React</div><div class="sk-chip">🟨 JavaScript</div><div class="sk-chip">🌐 HTML &amp; CSS</div><div class="sk-chip">💚 Node.js</div><div class="sk-chip">📊 Google Sheets</div><div class="sk-chip">💳 Paystack</div><div class="sk-chip">🔗 Webhooks</div><div class="sk-chip">🎨 Figma</div>
+      <div class="sk-chip">⚡ Make.com</div><div class="sk-chip">🤖 AI / ChatGPT</div><div class="sk-chip">⚛️ React</div><div class="sk-chip">🟨 JavaScript</div><div class="sk-chip">🌐 HTML &amp; CSS</div><div class="sk-chip">💚 Node.js</div><div class="sk-chip">📊 Google Sheets</div><div class="sk-chip">💳 Paystack</div><div class="sk-chip">🔗 Webhooks</div><div class="sk-chip">🎨 Figma</div>
+    </div>
+    <div class="sk-row">
+      <div class="sk-chip">🗂️ Project Management</div><div class="sk-chip">🔄 Workflow Design</div><div class="sk-chip">📱 Responsive Design</div><div class="sk-chip">🛒 E-Commerce</div><div class="sk-chip">🧩 API Integration</div><div class="sk-chip">📈 LinkedIn Automation</div><div class="sk-chip">🛡️ Duplicate Prevention</div><div class="sk-chip">💡 Problem Solving</div><div class="sk-chip">🏗️ Systems Thinking</div><div class="sk-chip">📨 Twilio SMS</div>
+      <div class="sk-chip">🗂️ Project Management</div><div class="sk-chip">🔄 Workflow Design</div><div class="sk-chip">📱 Responsive Design</div><div class="sk-chip">🛒 E-Commerce</div><div class="sk-chip">🧩 API Integration</div><div class="sk-chip">📈 LinkedIn Automation</div><div class="sk-chip">🛡️ Duplicate Prevention</div><div class="sk-chip">💡 Problem Solving</div><div class="sk-chip">🏗️ Systems Thinking</div><div class="sk-chip">📨 Twilio SMS</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="eyebrow reveal">The Person Behind The Build</div>
+    <h2 class="sec-h reveal d1">MEET<br><em>JOSHUA</em></h2>
+    <div class="about-grid">
+      <div class="about-img-wrap reveal-l">
+        <div class="about-img-box">
+          <div class="about-img-letter">J</div>
+          <img class="about-logo-mid" src="${LOGO_SRC}" alt="BIGJOSHTECH">
+          <div class="about-img-badge"><div class="b-n">300L</div><div class="b-l">FUTA · PMT · AKURE</div></div>
+          <div class="about-img-corner"><img src="${LOGO_SRC}" alt="Logo"></div>
+        </div>
+      </div>
+      <div class="about-right reveal d1">
+        <div class="about-text">
+          <p>I'm <strong>Joshua</strong> — developer, automation builder, and the person behind <strong>BIGJOSHTECH</strong>, a subsidiary of BIGTECH GLOBAL. I got into this because I saw how much time people waste doing things that software could handle in seconds. So I learned how to build those systems, and now I do it for other people.</p>
+          <p>My first real projects came through <strong>FHG (Faith Heroic Generation)</strong> — that's where I stopped learning for the sake of learning and started actually delivering. First paid work. First real deadline. First time a client said "this is exactly what I needed." That's when it clicked.</p>
+          <p>Right now I'm a <strong>300-level PMT student at FUTA</strong> in Akure — studying project management while running freelance projects at the same time. That means I understand timelines, communicate clearly, and don't ghost clients. That's rarer than it should be.</p>
+          <p>The goal is simple: help businesses run smarter, and eventually build something big enough to put Nigeria on the global tech map. <strong>BIGTECH GLOBAL</strong> isn't just a name — it's the plan.</p>
+        </div>
+
+        <div class="eyebrow reveal" style="margin-top:2rem">Why Make.com &amp; Automation</div>
+        <div class="exp-grid">
+          <div class="exp-card"><h4>✅ No-code simplicity</h4><p>Complex workflows without writing a single line of code.</p></div>
+          <div class="exp-card"><h4>✅ Endless connections</h4><p>1000+ apps. Any tool you use, I can probably connect it.</p></div>
+          <div class="exp-card"><h4>✅ Runs forever</h4><p>Set it up once, walk away. It works while you sleep.</p></div>
+          <div class="exp-card"><h4>✅ Cost-effective</h4><p>One automation can replace 10+ hours of manual work per week.</p></div>
+        </div>
+
+        <div class="eyebrow reveal" style="margin-top:2rem">How I work</div>
+        <div class="phil-grid">
+          <div class="phil-item"><div class="phil-icon">🎯</div><h4>Clarity First</h4><p>I understand your actual workflow before touching anything. The best automation solves the right problem.</p></div>
+          <div class="phil-item"><div class="phil-icon">🧪</div><h4>Test Everything</h4><p>If it doesn't work perfectly, it doesn't get delivered. No exceptions.</p></div>
+          <div class="phil-item"><div class="phil-icon">📚</div><h4>Document Clearly</h4><p>You get step-by-step docs so you understand and can manage what I built.</p></div>
+          <div class="phil-item"><div class="phil-icon">🤝</div><h4>Honest Advice</h4><p>If automation isn't the right fix, I'll tell you. Long-term relationships beat one-off jobs.</p></div>
+        </div>
+
+        <div class="tl">
+          <div class="tl-eyebrow">// how I got here</div>
+          <div class="tl-item"><div class="tl-dot on"></div><div><div class="tl-yr">Now</div><div class="tl-title">Freelance Dev &amp; Automation Specialist — BIGJOSHTECH</div><div class="tl-desc">Building automation systems, AI tools, and web products for clients under the BIGTECH GLOBAL brand.</div></div></div>
+          <div class="tl-item"><div class="tl-dot on"></div><div><div class="tl-yr">2024</div><div class="tl-title">First Real Money — FHG Program</div><div class="tl-desc">Got my first paying projects through Faith Heroic Generation. Stopped being a learner. Started being a builder.</div></div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-yr">2023</div><div class="tl-title">300L — Project Management Technology, FUTA</div><div class="tl-desc">Studying systems and execution at Federal University of Technology Akure. Applying it in real time.</div></div></div>
+          <div class="tl-item"><div class="tl-dot"></div><div><div class="tl-yr">2022</div><div class="tl-title">Fell Into Web Dev &amp; Never Looked Back</div><div class="tl-desc">First HTML pages. First JavaScript. First obsession with building things on the internet.</div></div></div>
+        </div>
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap" class="reveal">
+          <a href="#contact" class="btn-gold">Work With Me</a>
+          <a href="#" class="btn-ghost">Download CV</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="container">
+    <div class="eyebrow reveal">Social Proof</div>
+    <h2 class="sec-h reveal d1">WHAT <em>CLIENTS</em><br>SAY</h2>
+    <p class="sec-sub reveal d2">Real feedback. Not marketing copy.</p>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <div class="tc-top"><div class="tc-stars">★★★★★</div><div class="tc-qm">"</div></div>
+        <p class="tc-body">Joshua built our automation from scratch and it changed how the whole business runs. The LinkedIn posting system alone saves us hours every week. He delivered exactly what he promised, no back and forth.</p>
+        <div class="tc-foot"><div class="tc-av">AK</div><div><div class="tc-name">Adewale K.</div><div class="tc-role">Founder · Digital Agency, Lagos</div></div></div>
+      </div>
+      <div class="testi-card reveal d1">
+        <div class="tc-top"><div class="tc-stars">★★★★★</div><div class="tc-qm">"</div></div>
+        <p class="tc-body">The automation Joshua created for our customer service transformed how we handle inquiries. Response times went from hours to seconds, and our customers noticed immediately.</p>
+        <div class="tc-foot"><div class="tc-av">MJ</div><div><div class="tc-name">Michael J.</div><div class="tc-role">Service Business Manager</div></div></div>
+      </div>
+      <div class="testi-card reveal d2">
+        <div class="tc-top"><div class="tc-stars">★★★★★</div><div class="tc-qm">"</div></div>
+        <p class="tc-body">The NEXUS store is exactly what we were looking for — fast, clean, and it actually converts. Joshua understood the Nigerian market without needing a long explanation.</p>
+        <div class="tc-foot"><div class="tc-av">CN</div><div><div class="tc-name">Chidi N.</div><div class="tc-role">Gaming Store Owner · Abuja</div></div></div>
+      </div>
+      <div class="testi-card reveal d3">
+        <div class="tc-top"><div class="tc-stars">★★★★★</div><div class="tc-qm">"</div></div>
+        <p class="tc-body">I needed Gmail, Google Sheets, and Notion to work together perfectly. Joshua delivered exactly that — plus documentation so I actually understood how it all works.</p>
+        <div class="tc-foot"><div class="tc-av">ER</div><div><div class="tc-name">Emily R.</div><div class="tc-role">Content Creator &amp; Consultant</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <div class="tc-top"><div class="tc-stars">★★★★★</div><div class="tc-qm">"</div></div>
+        <p class="tc-body">Honest, on time, and followed up after delivery. I've worked with devs who overpromise and disappear — Joshua is the opposite of that.</p>
+        <div class="tc-foot"><div class="tc-av">FM</div><div><div class="tc-name">Fatima M.</div><div class="tc-role">Operations Manager · Tech Startup</div></div></div>
+      </div>
+      <div class="testi-card reveal d1">
+        <div class="tc-top"><div class="tc-stars">★★★★★</div><div class="tc-qm">"</div></div>
+        <p class="tc-body">Joshua doesn't just build automations — he solves problems. He suggested improvements I hadn't even thought of, and the final result exceeded what I asked for.</p>
+        <div class="tc-foot"><div class="tc-av">TW</div><div><div class="tc-name">Thomas W.</div><div class="tc-role">Tech Startup Founder</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="ct-bg">LET'S BUILD</div>
+  <div class="container">
+    <div class="ct-inner">
+      <div class="reveal-l">
+        <div class="eyebrow">Get In Touch</div>
+        <h2 class="ct-punch">GOT A PROJECT?<br>LET'S <em>TALK.</em></h2>
+        <p class="ct-desc">Whether you need a workflow automated, a site built, or an AI tool plugged into your business — drop me a message. I reply fast and I don't do vague proposals.</p>
+        <div class="channels">
+          <a href="https://www.linkedin.com/in/joshua-bolaji-1758573a1" class="ch" target="_blank">
+            <div class="ch-ico">in</div><div><div class="ch-lbl">LinkedIn</div><div class="ch-val">Joshua Bolaji / BIGJOSHTECH</div></div><span class="ch-arr">→</span>
+          </a>
+          <a href="mailto:hello@bigjoshtech.com" class="ch">
+            <div class="ch-ico">@</div><div><div class="ch-lbl">Email</div><div class="ch-val">hello@bigjoshtech.com</div></div><span class="ch-arr">→</span>
+          </a>
+          <a href="https://wa.me/234" class="ch" target="_blank">
+            <div class="ch-ico">💬</div><div><div class="ch-lbl">WhatsApp</div><div class="ch-val">Most clients prefer this — I do too</div></div><span class="ch-arr">→</span>
+          </a>
+        </div>
+      </div>
+      <div class="reveal d1">
+        <form onsubmit="submitForm(event)">
+          <div class="form-row">
+            <div class="fg"><label>Your Name</label><input type="text" placeholder="John Doe" required></div>
+            <div class="fg"><label>Email</label><input type="email" placeholder="john@company.com" required></div>
+          </div>
+          <div class="fg">
+            <label>What do you need?</label>
+            <select><option value="" disabled selected>Pick a service...</option><option>Make.com Automation</option><option>AI Digital Solutions</option><option>Web Design</option><option>Web App Development</option><option>Not sure yet — let's talk</option></select>
+          </div>
+          <div class="fg"><label>Tell me about it</label><textarea rows="5" placeholder="What's the project? What problem are you trying to solve?" required></textarea></div>
+          <button type="submit" class="form-btn" id="formBtn">Send It ✦</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="ft-top">
+      <div class="ft-brand">
+        <a href="#hero" class="ft-logo-wrap">
+          <img src="${LOGO_SRC}" alt="BIGJOSHTECH">
+          <div><div class="ft-logo-main">BIGJOSHTECH</div><div class="ft-logo-sub">A BIGTECH GLOBAL BRAND</div></div>
+        </a>
+        <p class="ft-brand-desc">Freelance Developer &amp; Automation Specialist building real systems for real businesses from Akure, Nigeria. Make.com · AI · Web · E-Commerce.</p>
+      </div>
+      <div class="ft-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#hero">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#works">Works</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#testimonials">Testimonials</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="ft-col">
+        <h4>Connect</h4>
+        <ul>
+          <li><a href="https://www.linkedin.com/in/joshua-bolaji-1758573a1" target="_blank">LinkedIn</a></li>
+          <li><a href="https://github.com/BIGJOSHIG" target="_blank">GitHub</a></li>
+          <li><a href="mailto:hello@bigjoshtech.com">Email</a></li>
+          <li><a href="https://wa.me/234" target="_blank">WhatsApp</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <div class="ft-copy">© 2025 BIGJOSHTECH · All Rights Reserved · A BIGTECH GLOBAL Brand</div>
+      <div class="ft-made">Built from Akure. Shipped to the world. 🇳🇬</div>
+    </div>
+  </div>
+</footer>
+
+<!-- SCROLL TO TOP -->
+<div id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+  <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z"/></svg>
+</div>
+
+<!-- PARTICLES.JS -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<script>
+// ── LOADER ────────────────────────────────────────
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('out');
+    setTimeout(() => document.getElementById('loader').style.display='none', 900);
+  }, 3000);
+});
+
+// ── PARTICLES ────────────────────────────────────
+window.addEventListener('load', () => {
+  if(typeof particlesJS !== 'undefined'){
+    particlesJS('particles-js',{
+      particles:{
+        number:{value:60,density:{enable:true,value_area:900}},
+        color:{value:'#F5C500'},
+        shape:{type:'circle'},
+        opacity:{value:0.18,random:true},
+        size:{value:2.5,random:true},
+        line_linked:{enable:true,distance:140,color:'#F5C500',opacity:0.07,width:1},
+        move:{enable:true,speed:1.2,direction:'none',random:true,out_mode:'out'}
+      },
+      interactivity:{
+        detect_on:'canvas',
+        events:{onhover:{enable:true,mode:'repulse'},onclick:{enable:true,mode:'push'},resize:true},
+        modes:{repulse:{distance:100},push:{particles_nb:3}}
+      },
+      retina_detect:true
+    });
+  }
+});
+
+// ── CURSOR ────────────────────────────────────────
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function animR(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animR);})();
+document.querySelectorAll('a,button,.svc-item,.proj-row,.proj-card,.ch,.f-btn,.stat-card,.testi-card,.exp-card,.phil-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hovering'));
+});
+
+// ── NAV SCROLL + ACTIVE ───────────────────────────
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  nav.classList.toggle('scrolled',scrollY>50);
+  document.getElementById('scrollTop').classList.toggle('show',scrollY>500);
+  // Active nav
+  let current='';
+  document.querySelectorAll('section[id]').forEach(s=>{
+    if(scrollY>=s.offsetTop-220) current=s.getAttribute('id');
+  });
+  document.querySelectorAll('.nav-links a').forEach(a=>{
+    a.classList.toggle('active',a.getAttribute('href')==='#'+current);
+  });
+});
+
+// ── MOBILE NAV ────────────────────────────────────
+function toggleMob(){
+  const hb=document.getElementById('hamburger');
+  const mn=document.getElementById('mobNav');
+  hb.classList.toggle('open');
+  mn.classList.toggle('show');
+}
+function closeMob(){
+  document.getElementById('hamburger').classList.remove('open');
+  document.getElementById('mobNav').classList.remove('show');
+}
+document.querySelectorAll('.mob-nav a').forEach(a=>a.addEventListener('click',closeMob));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') closeMob(); });
+
+// ── SCROLL REVEAL ─────────────────────────────────
+const revObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal,.reveal-l').forEach(el=>revObs.observe(el));
+
+// ── STAT COUNTERS ─────────────────────────────────
+function animateCounter(el){
+  const target=parseInt(el.dataset.target);
+  const suffix=el.dataset.suffix||'';
+  if(isNaN(target))return;
+  let current=0;
+  const duration=1800;
+  const step=target/duration*16;
+  const timer=setInterval(()=>{
+    current=Math.min(current+step,target);
+    el.textContent=Math.floor(current)+suffix;
+    if(current>=target) clearInterval(timer);
+  },16);
+}
+const ctrObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('[data-target]').forEach(animateCounter);
+      ctrObs.unobserve(e.target);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.stats-grid,.hero-stats').forEach(el=>ctrObs.observe(el));
+
+// ── SERVICES ACCORDION ────────────────────────────
+function toggleSvc(item){
+  const body=item.querySelector('.svc-body');
+  const arr=item.querySelector('.svc-arr');
+  const isOpen=body.classList.contains('open');
+  document.querySelectorAll('.svc-item').forEach(i=>{ i.classList.remove('open'); i.querySelector('.svc-body').classList.remove('open'); i.querySelector('.svc-arr').textContent='+'; });
+  if(!isOpen){ item.classList.add('open'); body.classList.add('open'); arr.textContent='−'; }
+}
+
+// ── WORKS FILTER ──────────────────────────────────
+document.querySelectorAll('.f-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.f-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const f=btn.dataset.f;
+    document.querySelectorAll('.proj-row,.proj-card').forEach(row=>{
+      row.style.display=(f==='all'||(row.dataset.tags||'').includes(f))?'':'none';
+    });
+  });
+});
+
+// ── TYPEWRITER ────────────────────────────────────
+const twLines=[
+  "I build <span class='hl'>automations and websites</span> that help businesses run smoother.",
+  "I make <span class='hl'>systems that save time and money</span> using AI and automation.",
+  "I design websites and set up <span class='hl'>automations for small businesses</span>.",
+  "I help businesses go digital — <span class='hl'>websites, automations, the whole thing.</span>"
+];
+let twI=0,twC=0,twDel=false;
+const twEl=document.getElementById('twText');
+function twLoop(){
+  const full=twLines[twI];
+  const stripped=full.replace(/<[^>]+>/g,'');
+  if(!twDel){
+    twC++;
+    let vis=0,out='',i=0;
+    while(i<full.length&&vis<twC){
+      if(full[i]==='<'){let e=full.indexOf('>',i);out+=full.slice(i,e+1);i=e+1;}
+      else{out+=full[i];vis++;i++;}
+    }
+    twEl.innerHTML=out+'<span class="tw-cur"></span>';
+    if(twC>=stripped.length){setTimeout(()=>{twDel=true;twLoop();},2200);return;}
+  } else {
+    twC=Math.max(0,twC-2);
+    let vis=0,out='',i=0;
+    while(i<full.length&&vis<twC){
+      if(full[i]==='<'){let e=full.indexOf('>',i);out+=full.slice(i,e+1);i=e+1;}
+      else{out+=full[i];vis++;i++;}
+    }
+    twEl.innerHTML=out+'<span class="tw-cur"></span>';
+    if(twC<=0){twDel=false;twI=(twI+1)%twLines.length;setTimeout(twLoop,400);return;}
+  }
+  setTimeout(twLoop,twDel?16:40);
+}
+setTimeout(twLoop,3600);
+
+// ── FORM ──────────────────────────────────────────
+function submitForm(e){
+  e.preventDefault();
+  const btn=document.getElementById('formBtn');
+  btn.textContent="Sent ✓ I'll be in touch soon";
+  btn.style.background='#1aff7a';
+  setTimeout(()=>{btn.textContent='Send It ✦';btn.style.background='';e.target.reset();},4000);
+}
+</script>
+</body>
+</html>
+HTMLEOF
+echo "Built: $(wc -c < /home/claude/bigjoshtech-final.html) bytes"
+Output
+
+Logo length: 5747
+Built: 103271 bytes
