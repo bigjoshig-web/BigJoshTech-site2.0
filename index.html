@@ -1,9 +1,3 @@
-  bash
-
-LOGO_SRC=$(cat /tmp/logo_src.txt)
-echo "Logo length: ${#LOGO_SRC}"
-
-cat > /home/claude/bigjoshtech-final.html << HTMLEOF
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1018,9 +1012,6 @@ function submitForm(e){
 </script>
 </body>
 </html>
-HTMLEOF
-echo "Built: $(wc -c < /home/claude/bigjoshtech-final.html) bytes"
-Output
 
 Logo length: 5747
 Built: 103271 bytes
